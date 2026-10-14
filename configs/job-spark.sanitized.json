@@ -1,0 +1,29 @@
+{
+  "Job": {
+    "Name": "spark-order-summary",
+    "JobMode": "SCRIPT",
+    "JobRunQueuingEnabled": false,
+    "Role": "arn:aws:iam::<ACCOUNT_ID>:role/<GLUE_ROLE>",
+    "ExecutionProperty": {
+      "MaxConcurrentRuns": 1
+    },
+    "Command": {
+      "Name": "glueetl",
+      "ScriptLocation": "s3://<SCRIPT_BUCKET>/jobs/spark_order_summary.py",
+      "PythonVersion": "3"
+    },
+    "DefaultArguments": {
+      "--s3_input_path": "s3://<DATA_BUCKET>/orders/",
+      "--datalake-formats": "iceberg",
+      "--conf": "spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions --conf spark.sql.catalog.s3t=org.apache.iceberg.spark.SparkCatalog --conf spark.sql.catalog.s3t.type=rest --conf spark.sql.catalog.s3t.uri=https://s3tables.us-east-1.amazonaws.com/iceberg --conf spark.sql.catalog.s3t.warehouse=arn:aws:s3tables:us-east-1:<ACCOUNT_ID>:bucket/<TABLE_BUCKET> --conf spark.sql.catalog.s3t.rest.sigv4-enabled=true --conf spark.sql.catalog.s3t.rest.signing-name=s3tables --conf spark.sql.catalog.s3t.rest.signing-region=us-east-1 --conf spark.sql.catalog.s3t.io-impl=org.apache.iceberg.aws.s3.S3FileIO --conf spark.sql.catalog.s3t.rest-metrics-reporting-enabled=false",
+      "--target_table": "<TARGET_TABLE>"
+    },
+    "MaxRetries": 0,
+    "AllocatedCapacity": 2,
+    "Timeout": 10,
+    "MaxCapacity": 2.0,
+    "WorkerType": "G.1X",
+    "NumberOfWorkers": 2,
+    "GlueVersion": "6.0"
+  }
+}

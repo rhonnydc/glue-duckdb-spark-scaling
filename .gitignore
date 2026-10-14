@@ -1,0 +1,19 @@
+# Generated datasets and local Python environments
+data/
+*.parquet
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local credentials and editor files
+.env
+.env.*
+.aws/
+.DS_Store
+Thumbs.db
+
+# Temporary human-readable copies of result CSV files
+TEMPORAL/
+
+# Local analysis exports and social-media layouts
+analysis/

@@ -1,0 +1,29 @@
+{
+  "Job": {
+    "Name": "duckdb-order-summary",
+    "JobMode": "SCRIPT",
+    "JobRunQueuingEnabled": false,
+    "Role": "arn:aws:iam::<ACCOUNT_ID>:role/<GLUE_ROLE>",
+    "ExecutionProperty": {
+      "MaxConcurrentRuns": 1
+    },
+    "Command": {
+      "Name": "glueetl",
+      "ScriptLocation": "s3://<SCRIPT_BUCKET>/jobs/duckdb_order_summary.py",
+      "PythonVersion": "3"
+    },
+    "DefaultArguments": {
+      "--s3_input_path": "s3://<DATA_BUCKET>/orders/",
+      "--additional-python-modules": "duckdb==1.5.1",
+      "--s3t_arn": "arn:aws:s3tables:us-east-1:<ACCOUNT_ID>:bucket/<TABLE_BUCKET>",
+      "--target_table": "<TARGET_TABLE>"
+    },
+    "MaxRetries": 0,
+    "AllocatedCapacity": 2,
+    "Timeout": 10,
+    "MaxCapacity": 2.0,
+    "WorkerType": "G.1X",
+    "NumberOfWorkers": 2,
+    "GlueVersion": "6.0"
+  }
+}
